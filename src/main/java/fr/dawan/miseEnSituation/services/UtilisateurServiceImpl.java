@@ -8,6 +8,7 @@ import fr.dawan.miseEnSituation.dto.LoginResponseDto;
 import fr.dawan.miseEnSituation.dto.UtilisateurDto;
 
 import fr.dawan.miseEnSituation.entities.Utilisateur;
+import fr.dawan.miseEnSituation.repositories.EtudiantRepository;
 import fr.dawan.miseEnSituation.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +21,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService{
-   
+   @Autowired
+    EtudiantRepository etudiantRepository;
+
     @Autowired
     UtilisateurRepository utilisateurRepository;
 
@@ -49,7 +52,9 @@ public class UtilisateurServiceImpl implements UtilisateurService{
 
     @Override
     public UtilisateurDto saveOrUpdate(UtilisateurDto b) {
+
         Utilisateur bEntity = DtoTools.convert(b, Utilisateur.class);
+
         try {
 
             bEntity.setPassword(HashTools.hashSHA512(b.getPassword()));
@@ -57,12 +62,14 @@ public class UtilisateurServiceImpl implements UtilisateurService{
             e.printStackTrace();
         }
 
+
         return DtoTools.convert(utilisateurRepository.saveAndFlush(bEntity),UtilisateurDto.class);
     }
 
     @Override
     public void deleteById(long id) {
         utilisateurRepository.deleteById(id);
+
     }
 
 

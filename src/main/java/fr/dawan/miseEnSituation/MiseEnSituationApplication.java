@@ -1,8 +1,10 @@
 package fr.dawan.miseEnSituation;
 
+import fr.dawan.miseEnSituation.interceptors.TokenInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -21,7 +23,8 @@ public class MiseEnSituationApplication {
 			//AJOUT D'UN FILTRE
 			@Override
 			public void addInterceptors(InterceptorRegistry registry) {
-				//   registry.addInterceptor(tokenInterceptor);
+				/*HandlerInterceptor tokenInterceptor = new TokenInterceptor();
+				registry.addInterceptor(tokenInterceptor);*/
 			}
 
 			// CROS ORIGIN

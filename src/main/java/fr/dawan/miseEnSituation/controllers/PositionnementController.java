@@ -35,12 +35,22 @@ public class PositionnementController {
         return positionnementService.getAll();
     }
 
+    @GetMapping(value = "/{page}/{size}",produces = "application/json")
+    public List<PositionnementDto> getAll(@PathVariable("page") int page,@PathVariable("size") int size) {
+
+        return positionnementService.getAll(page, size);
+    }
+
     @GetMapping(value = "/{id}", produces = "application/json")
     public PositionnementDto getById(@PathVariable("id") long id) {
 
         return positionnementService.getById(id);
     }
 
+    @GetMapping(value="/count",produces = "application/json")
+    public long countAll(){
+        return positionnementService.count();
+    }
 
     ////// post /////
     @PostMapping(consumes = "application/json", produces = "application/json")

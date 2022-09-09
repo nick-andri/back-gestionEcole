@@ -63,6 +63,7 @@ public class EtudiantServiceImpl implements EtudiantService{
         }
 
         if (etu.getId() == 0) { // insertion
+
             etu.setPassword(HashTools.hashSHA512(etu.getPassword()));
 
 
@@ -73,13 +74,18 @@ public class EtudiantServiceImpl implements EtudiantService{
             }
 
         }
-        etu = etudiantRepository.saveAndFlush(etu);
+
+
+
+            etu = etudiantRepository.saveAndFlush(etu);
+
 
         return DtoTools.convert(etu, EtudiantDto.class);
     }
 
     @Override
     public void deleteById(long id) {
+
         etudiantRepository.deleteById(id);
     }
 
@@ -96,7 +102,7 @@ public class EtudiantServiceImpl implements EtudiantService{
 
     @Override
     public List<EtudiantDto> getAllByPomoByPage(int page, int size, int promoId) {
-        return etudiantRepository.findAllBy_PromotionId(PageRequest.of(page, size),promoId)
+        return etudiantRepository.findAllBy_PromotionId(PageRequest.of(page-1, size),promoId)
                 .stream().map(etudiant -> DtoTools.convert(etudiant,EtudiantDto.class))
                 .collect(Collectors.toList());
     }

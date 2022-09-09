@@ -42,6 +42,8 @@ public class EtudiantController {
         return etudiantService.countAll();
     }
 
+
+
     @GetMapping(value = "/{page}/{size}",produces = "application/json")
     public List<EtudiantDto> getAllByPage(@PathVariable("page") int page,@PathVariable("size") int size) {
         return etudiantService.getAllByPage(page, size);

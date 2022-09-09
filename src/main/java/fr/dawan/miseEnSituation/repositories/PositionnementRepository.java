@@ -1,6 +1,8 @@
 package fr.dawan.miseEnSituation.repositories;
 
+import fr.dawan.miseEnSituation.dto.PositionnementDto;
 import fr.dawan.miseEnSituation.entities.Positionnement;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,5 @@ public interface PositionnementRepository extends JpaRepository<Positionnement, 
 
     @Query("FROM Positionnement p JOIN p.etudiant etu JOIN FETCH etu.promotions promo WHERE promo.id= :promotionId")
     List<Positionnement> findAllByPromotionId(long promotionId);
+
 }

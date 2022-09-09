@@ -70,7 +70,7 @@ public class PromotionServiceImpl implements PromotionService{
 
     @Override
     public List<PromotionDto> getAll(int page, int size, String search) {
-        return promotionRepository.findAllByVille_NomContaining(PageRequest.of(page, size),search)
+        return promotionRepository.findAllByVille_NomContaining(PageRequest.of(page-1, size),search)
                 .stream().map(promotion -> DtoTools.convert(promotion,PromotionDto.class))
                 .collect(Collectors.toList());
     }

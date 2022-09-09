@@ -12,9 +12,11 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import java.awt.print.Pageable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,6 +43,12 @@ public class PositionnementServiceImpl implements PositionnementService{
         return positionnementRepository.findAll().stream()
                 .map(u -> DtoTools.convert(u, PositionnementDto.class)).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public List<PositionnementDto> getAll(int page, int size) {
+        return positionnementRepository.findAll(PageRequest.of(page-1, size))
+                .stream().map(positionnement -> DtoTools.convert(positionnement,PositionnementDto.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -102,14 +110,14 @@ public class PositionnementServiceImpl implements PositionnementService{
             model.put("posiByPromoEntries", posiByPromoMap.entrySet());
 
 
-//			for (Intervention interv : posiByPromoMap.keySet()) {
-//				System.out.println("formation : " + interv.getFormation().getTitre());
-//				for (Positionnement pos : posiByPromoMap.get(interv)) {
-//					System.out.println(pos.getEtudiant().getNom() + " - NivDeb : " + pos.getNiveauDebut().getValeur()
-//							+ " - NivFin : " + pos.getNiveauFin().getValeur());
-//				}
-//				System.out.println("---------");
-//			}
+			for (Intervention interv : posiByPromoMap.keySet()) {
+				System.out.println("formation : " + interv.getFormation().getTitre());
+				for (Positionnement pos : posiByPromoMap.get(interv)) {
+					System.out.println(pos.getEtudiant().getNom() + " - NivDeb : " + pos.getNiveauDebut().getValeur()
+							+ " - NivFin : " + pos.getNiveauFin().getValeur());
+				}
+				System.out.println("---------");
+			}
 
             // on lui demande d'appliquer le template pour l'objet t (titreProfessionnel)
             String htmlContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
@@ -123,5 +131,10 @@ public class PositionnementServiceImpl implements PositionnementService{
 
         return null;
 
+    }
+
+    @Override
+    public long count() {
+        return promotionRepository.count();
     }
 }
